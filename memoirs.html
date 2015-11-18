@@ -1,0 +1,421 @@
+<html>
+<head>
+<title>Memoirs - Ted Felix</title>
+</head>
+<body>
+<h1>Memoirs - Ted Felix</h1>
+
+<p><i>This code archaeology is based on date stamps on files.  These do not reflect either the start or the end of a project.  Instead, they reflect the last edit.  While Windows does keep create dates, I can almost guarantee that the create dates on these files were lost long ago when transferring the data from one hard drive to another back through time.</i></p>
+
+<p><i>I've also skipped some things.  It might be a really good idea to do a dump of all the files sorted in date order with the date on the front.  That would be a handy starting point for archaeology.  "ls" doesn't seem very good for this.  Maybe "find" and "sort"?  Maybe my files.exe program re-written?</i></p>
+
+<h2>TRS-80</h2>
+<p>11/18/1979 - TRS-80 purchased.  Level-I BASIC, 4k RAM.  $499.</p>
+
+<p>Precious little survives from this period.  Mostly written notes.  I let the TRS-80 and all of its tapes go.  I had no idea that emulators were coming or I would've at least saved the tapes.  I didn't even save the program lists for the tapes.</p>
+
+<p>I should probably try and brainstorm a list of key programs.</p>
+
+<ul>
+<li>Magic 8 Ball (using "on goto")</li>
+<li>Escape</li>
+<li>Super Draw - Along with screen invert routine in assembler.</li>
+<li>Lunar Lander</li>
+<li>RAM Checker (Assembler, "RAM is fine, how are EWE?")</li>
+<li>Christmas Tree?  Probably.</li>
+<li>Starfield</li>
+<li>Nurg Attack - Part of a series of games developed Summer '82 as a farewell to the TRS-80</li>
+</ul>
+
+<p>It's possible that the tediousness of saving to tape was a hinderance to productivity.</p>
+
+<h2>Club Data</h2>
+
+<p>11/30/1979 - Journal entry indicates that a few days ago I wrote the program with the Club data.  I have this program on a trape tape.  Might be able to bring it back to life.  It is the only example of a TRS-80 program that survives.</p>
+
+<h2>Level II BASIC</h2>
+
+<p>7/11/1980 - TRS-80 upgraded to Level II BASIC after a failed attempt at RS.  $120.</p>
+
+<h2>16k RAM!</h2>
+
+<p>8/6/1980 - TRS-80 upgraded to 16k RAM!  $65 at "The Program Store" which as I recall was in the Van Ness area in DC.  Found an address that sounds right:</p>
+
+<blockquote><pre>
+Tenley Mall Building
+4200 Wisconsin Ave NW
+Washington, DC 20016
+</pre></blockquote>
+
+<p>Wonder what the suite number was.  9609?  May have changed over the life of the store.  A google search on "Program Store" "4200 Wisconsin" gets lots of retro hits like CLOAD magazine.</p>
+
+<h2>IBM PC Ordered</h2>
+
+<p>10/19/1981 - Order for IBM PC sent in.  My father was an IBM employee and there was a special process for ordering to get a discount.</p>
+
+<h2>Digitizing Speech</h2>
+
+<p>11/1/1981 - Journal entry indicates that today is the day that I coded up a Z-80 assembler routine to "digitize" speech.  Basically, it would take the cassette input and send it straight back out the output.  A filter, essentially.  Here's the code from the journal (I've added comments):</p>
+
+<pre>
+Listen  LD  A,0      ; 0 volts
+        OUT (255),A
+        IN  A,(255)  ; If port 255
+        CP  255      ; has 255 in it,
+        JP  Z,Gotbit ; Something came in
+        JP  Listen
+Gotbit  LD  A,1      ; Output a pulse.
+        OUT (255),A  ; Positive voltage
+        LD  A,2
+        OUT (255),A  ; Negative voltage
+        JP  Listen
+</pre>
+
+Not bad for a 13 year-old.
+
+<h2>IBM PC</h2>
+
+<p>6/29/1982 - We picked it up at ComputerLand (451 Hungerford Drive, Rockville).  I remember that we had ordered DOS 1.00, but there was some horrible bug in it, so they gave us copies of DOS 1.05.  My Hallmark calendar indicates that we picked up the Amdek Color II from Frederick Computer Products (the next day).</p>
+
+<h2>TEDFIRST.BAS</h2>
+
+<p>6/30/1982 - TFS/MISC/TEDFIRST.BAS</p>
+
+<p>IIRC, this was just a silly program to test saving programs to... DISK!  I vaguely recall that my first try didn't work, but then things started to work fine.  And I was never able to figure out what I had done wrong.  Maybe a missing quote:</p>
+
+<blockquote><pre>
+SAVE TEDFIRST.BAS
+</pre></blockquote>
+
+<h2>LOVE.BAS</h2>
+
+<p>7/14/1982 - TFS/PRINTER/LOVE.BAS - ASCII art "LOVE" logo.</p>
+
+<p>Since we finally had a real printer, I guess I couldn't resist trying the classic LOVE program.  Is there a HATE program?</p>
+
+<h2>William Tell</h2>
+
+<p>7/16/1982 - TFS/GAMES/WILLTELL.BAS</p>
+
+<p>First game on the IBM PC.  Classic.  I've ported this to QBASIC and it is available on my website.</p>
+
+<h2>Starfield</h2>
+
+<p>10/16/1982 - TFS/GRAPHICS/STRSPLIT.BAS</p>
+
+<p>Dad's "starfield" algorithm.  XC and YC are coords of the screen center.  R is the rate for each star.  XS and YS are coords of the stars.</p>
+
+<blockquote><pre>
+700 XS(I)=(XS(I)-XC)*R(I)+XC
+800 YS(I)=(YS(I)-YC)*R(I)+YC
+</pre></blockquote>
+
+<p>I was about 12 years old when I asked my father (Charles P. Felix) for an "algorithm" for an expanding starfield on the TRS-80.  He spent some time with some graph paper and then gave me something like the above.  I was amazed because the X and Y were independent and identical.  It was my first experience with "elegance".</p>
+
+<p>This is a floating point implementation, so it is really slow and can be easily sped up with integers.  See the next incarnation, SLEEP.C (11/14/1992).</p>
+
+<p>Here's an attempt at recreating the original for the TRS-80:</p>
+
+<blockquote><pre>
+1 ' STARFIELD 9/23/2013
+5 RANDOM
+10 DEFINT I,N
+15 N=50
+20 DIM XS(N),YS(N)
+25 CLS
+30 FOR I=1 to N
+40 XS(I)=RND(128)-1
+50 YS(I)=RND(48)-1
+60 SET(XS(I),YS(I))
+70 NEXT I
+100 FOR I=1 TO N
+105 PX=XS(I):PY=YS(I)
+110 XS(I)=XS(I)+(XS(I)-64)*.1
+120 YS(I)=YS(I)+(YS(I)-24)*.1
+125 IF XS(I)>127 OR XS(I)<0 OR YS(I)>47 OR YS(I)<0 THEN GOSUB200:XS(I)=X:YS(I)=Y
+130 RESET(PX,PY):SET(XS(I),YS(I))
+140 NEXT I
+150 GOTO 100
+200 X=RND(22)+53
+210 Y=RND(12)+18
+220 IF X=64 AND Y=24 GOTO 200
+230 RETURN
+</pre></blockquote>
+
+<p>See trs-80.txt for more.  Note that the equations are a little more direct in this version, and I believe these are Chuck's originals.  However, this leads one to consider the version of these equations without an offset center.  If the center is at (0,0), then we get:</p>
+
+<blockquote><pre>
+x = x + x * r = rx + x = (r+1)x
+y = y + y * r = ry + y = (r+1)y
+</pre></blockquote>
+
+<p>Or, if we don't mind r=1 as stationary:</p>
+
+<blockquote><pre>
+x = rx
+y = ry
+</pre></blockquote>
+
+<h2>TedCalc</h2>
+
+<p>12/7/1982 - TFS/MISC/MATH/TEDCALC.BAS</p>
+
+<p>A spreadsheet program.  I had no idea how to do an expression parser.  Note that there is a later TEDCALC2.BAS from 12/3/1983.</p>
+
+<h2>Super Scroll</h2>
+
+<p>7/8/1983 TFS/ASM/SOURCE/SPRSCRLL.ASM</p>
+
+<p>Classic TSR (terminate and stay resident) program to add scrolling capabilities to BASICA.  I think this was based on an HP machine that I used at <a href="http://www.adventureinscience.org/">Adventure In Science</a>.  This allowed you to move the cursor up past the top of the screen and it would scroll back everything that had scrolled off the top.  The only serious bug is that this program didn't scroll the line-continuation flags that BASICA stored internally.  I was able to find those flags, though, with a monitor program.  Just never went ahead and finished this.  Almost 600 lines total.</p>
+
+<h2>Print Screen</h2>
+
+<p>7/18/1983 - TFS/ASM/SOURCE/PRTSC.ASM</p>
+
+<p>My version of what would later appear in DOS as GRAPHICS.COM.  A Print Screen key handler that knew how to print a graphics screen to an Epson MX-80 with Graftrax.  This is an evolution of GRPHDMP.ASM which had to be run from a BASIC program.</p>
+
+<h2>TedCalc 2</h2>
+
+<p>12/3/1983 - TFS/MISC/MATH/TEDCALC2.BAS</p>
+
+<p>Later version of TEDCALC.BAS.  Might be interesting to see how I pulled this off without understanding how to write a simple expression parser.</p>
+
+<h2>Junior Draw</h2>
+
+<p>1/4/1987 - TFS/GRAPHICS/JRDRAW.BAS</p>
+
+<p>My usual drawing package (SuperDraw), but this time for the very graphics-capable PCJr.</p>
+
+<h2>Spacecraft Simulator, Gary Sivak</h2>
+
+<p>6/4/1988 - TFS/GAMES/SPACCRFT.BAS</p>
+
+<p>A Spacecraft Simulator, Gary Sivak, Byte 11/1979</p>
+
+<p>I think this is the program that I couldn't fix in high school but fixed easily when I was in college.  The date is correct.  This was ported from the TRS-80 to the PC.  It's a startling example of brain growth.</p>
+
+<h2>Finance</h2>
+
+<p>8/7/1988 - Pascal/FINANCE.PAS</p>
+
+<p>An accounting package that I developed for my Accounting teacher at GC.  He bumped my grade for the quarter from a B to an A.  8/7/1988 is clearly not during the school year, so I must have tweaked it a little after delivery.</p>
+
+<h2>GPS</h2>
+
+<p>6/1990 - I started working at IBM's GPS project in Gaithersburg.</p>
+
+<h2>Environment Variables</h2>
+
+<p>9/8/1990 - Pascal/ENVIRON.PAS</p>
+
+<p>A routine to get the value of environment vars.  This would have been a few months into GPS.</p>
+
+<h2>SysEx</h2>
+
+<p>3/9/1991 - Pascal/SYSEX.PAS</p>
+
+<p>Program to read/write MIDI sysex dumps via the MPU-401.  So, here I am starting to do some serious music programming in Pascal.</p>
+
+<h2>Reminder</h2>
+
+<p>6/11/1991 - Pascal/REMINDER.PAS</p>
+
+<p>An aborted attempt at porting REMINDER.BAS to Pascal.</p>
+
+<h2>Ensoniq EPS (Classic) Snippet</h2>
+
+<p>7/7/1991 - Pascal/TEMP.PAS</p>
+
+<p>An interesting artifact.  This looks like a code snippet.  Like my editor didn't have proper copy and paste.  So I saved to a file and chopped it up or something.  This is a snippet from the EPS program.  So I was definitely working on it during this time.  I would guess work started on it somewhere around 3/9/1991 (SYSEX.PAS).</p>
+
+<h2>EPS TODO</h2>
+
+<p>7/14/1991 - Pascal/EPSTODO.TXT</p>
+
+<p>Ideas for improving the existing Pascal EPS.PAS.</p>
+
+<h2>EPS Instruments</h2>
+
+<p>7/14/1991 - Pascal/EPSINST.TXT</p>
+
+<p>A report format for printing Ensoniq EPS instrument parameters.</p>
+
+<h2>Earliest Program in C</h2>
+
+<p>7/20/1991 - BC31/UTILITY/LONGBNCH.C</p>
+
+<p>A simple benchmarking program that probably was quite effective on my 486DX/33 machine back in the day.  Now, this would be done faster than it could be measured.</p>
+
+<p>This appears to be me learning C.  I really loved C.  At the time I only had Pascal and Assembler to work with.  Discovering C was huge.  The speed and power of Pascal and Assembler without the verbosity or primitiveness of Pascal and Assembler (respectively).</p>
+
+<h2>The Death of Pascal</h2>
+
+<p>8/19/1991 - Pascal/EPS.PAS</p>
+
+<p>An interface to the Ensoniq EPS Classic via the Roland MPU-401 to transfer wave data.  (I think.  Need to double-check.)</p>
+
+<p>This appears to be the date of the last edit to the last large Pascal program that I was working on before I found C and decided to port everything.  This file eventually gets cut up while porting and ends up with the C version in:</p>
+
+<blockquote><pre>
+devel/Archive/BC31/WAVED
+</pre></blockquote>
+
+<p>Here's what the EPS.PAS menu looked like in the end:</p>
+
+<blockquote><pre>
+Ted's Big Ol' Sample Thingy
+
+Current Instrument :   (x) NAME
+Current WaveSample : (xxx) NAME
+Buffer size        : xxxx bytes
+
+     *** MENU ***
+  1> Get WaveSample from EPS
+  2> Graph the WaveSample
+  3> Dump current buffer to file
+  4> Put Wave
+  5> Hack
+  6> Send ACK to EPS
+  9> Exit this program
+</pre></blockquote>
+
+<h2>JOVIAL</h2>
+
+<p>9/6/1991 - Jovial/MDL1PK.JOV</p>
+
+<p>Yes, JOVIAL!  This is the only piece of GPS (OR5.30 or so) that I have in digital form (I have some printouts too).  It's a singly-linked list "class".  The COMPOOL (MDL$$$) indicates that there was going to be a lot more to this, like keyed searches.  Not sure if I ever finished it.  At any rate, I vaguely recall bringing this home to work on.  I also remember bringing home some report formats for Mission Scheduler which I worked on on my TRS-80 Model 100 at OAO.  IBM had a holiday that day and we didn't.</p>
+
+<p>Anyway, the name breaks down into:</p>
+
+<blockquote><pre>
+"M" - Mission Scheduler CSCI
+"D" - Display CSC
+"L" - List (linked)
+"1" - Not sure.  Might mean "singly-linked".
+"PK" - Package
+</pre></blockquote>
+
+<p>The COMPOOL that goes with it is MDL$$$.  "$$$" was the GPS standard for compool filenames.</p>
+
+<p>The ".JOV" was added by me.  The actual filenames for the GPS source were restricted to six characters.  It had something to do with the older filesystems only handling 8 characters.  Two were reserved.  When we were working on GPS in the 90's, MVS no longer had this bizarre restriction, but we still stuck to the standard.</p>
+
+<p>In the code, GKGBUF() was the memory allocation function from RTX, IBM's Real-Time Executive, that we used on the S/370 and ES/9000.</p>
+
+<p>I have some additional printouts of Jim Parker's Queue class (MVQ?) that served as the pattern for this.  I also have lots of notes in notebooks.</p>
+
+<p>At the time, Ada and Objects were all the rage.  We were trying to follow the craze and do an abstract data type here.</p>
+
+<h2>Escape!</h2>
+
+<p>11/1/1991 - BC31/GAMES/ESCAPE.C</p>
+
+<p>Occasionally I feel compelled to bring this old game back to life.  Nothing compares with the TRS-80 version that I wrote.  It was dense and completely bizarre.  WOOF! called it "a game for the paranoid."</p>
+
+<h2>Matrix</h2>
+
+<p>11/1/1991 - BC31/UTILITY/MATRIX.CPP</p>
+
+<p>Earliest CPP file by me.</p>
+
+<p>This appears to be my first attempt at a C++ class.  This date does roughly fit my recollection that I spent 3 months learning C and then moved to C++.  This program would have required some study of C++ beforehand, so it is very likely that I started learning C++ a week or two prior to this date.  So, sometime in October.</p>
+
+<p>It's a matrix class without templates (I don't think Borland C++ 3.1 had templates).  Key points:</p>
+
+<ul>
+<li>private assumed at the top, public at the bottom</li>
+<li>operator+() for matrix addition</li>
+<li>Show() for display</li>
+<li>SetElem() to hide the implementation (setter)</li>
+<li>No getters</li>
+<li>An op=() that is unnecessary and no corresponding copy ctor</li>
+</ul>
+
+<p>This is very limited and I clearly probably abandoned it soon after getting it to work.  So the date on this file should be pretty close to when the file was created.</p>
+
+<h2>MPU-401 FSK Sync</h2>
+
+<p>11/30/1991 - BC31/MIDI/FSKSYNC.C</p>
+
+<p>This was a super-useful program that I hacked together to allow me to stripe track 1 on the TASCAM 234 with FSK timecode so I wouldn't have to use a track for the MIDI instruments when recording.  This worked really well.  It was used extensively on Ted & Tom's Xmas '91.  I must admit that of all the programs I wrote for the MPU, this is the one I remember as being potentially useful forever.  At least until I replaced the TASCAM 234 with a Delta 44.  I'm not sure that I ever used it again, however.</p>
+
+<h2>SuperDraw SVGA</h2>
+
+<p>1/12/1992 - BC31/GRAPHICS/DRAWSVGA.CPP</p>
+
+<p>Looks like an attempt at an SVGA drawing package for DOS.  Some attempt at using objects for this.  Looks pretty bizarre.  Should be worth some analysis for chuckles.</p>
+
+<h2>M$ Windoze Development</h2>
+
+<p>6/1992 - My r&eacute;sum&eacute; indicates M$ Windoze development begins.</p>
+
+<h2>Starfield in C</h2>
+
+<p>11/14/1992 - BC31/GRAPHICS/SLEEP.C</p>
+
+<p>The latest incarnation of STRSPLIT.BAS.  This time I used integers.  Unfortunately, this uses Borland's "bgi" graphics driver.  I could've sworn that I coded an ET-4000 version of this, but maybe not.  After all, this has 500 stars and was running on my 486DX/33.  So, that would've been good enough to elicit the "whoa!" from Tom when he accidentally ran this.  There is some ET-4000 code in SVGABGI.H and SVGABGI.C.  I don't think I wrote this.  Probably downloaded it from somewhere.  A text search of the archive for ET-4000 or SVGABGI might turn up additional clues.</p>
+
+<h2>UNIX to DOS</h2>
+
+<p>12/6/1992 - BC31/UTILITY/ADDCR.C</p>
+
+<p>Convert from UNIX to DOS line endings.  Looks like my implementation does it right.  If it sees a CRLF, it leaves it alone.  Nice.  Oddly, though, it also converts tabs to spaces.</p>
+
+<h2>Minesweeper for DOS</h2>
+
+<p>2/28/1993 - BC31/MINE/MINE.EXE</p>
+
+<p>Minesweeper for DOS as requested by WOOF!.</p>
+
+<p>The trick here was mouse support.  I also was practicing Object Orientation.  So this would be interesting to analyze for shiggles.  I'm sure I was way off.  This is the date of the last build.  But it appears that I may have started in January.  BTW, this should run fine in dosbox!</p>
+
+<h2>FAA Advanced Automation System</h2>
+
+<p>12/1993 - I started working on the FAA AAS project.</p>
+
+<h2>Mwave</h2>
+
+<p>1/23/1994 - MwAsm/WRAP/WRAP.DSP<p>
+
+<p>First Mwave .dsp file: Gain task with wraparound.</p>
+
+<p>Searching on the .dsp files is the best way to get a fix as these are the output of the build process.  The source .mwa files have messed up dates.  Possibly from using version control.  Note, though, that searching on .dsp results in a lot of noise as that was the extension used for project files in the older versions of VC++.</p>
+
+<h2>tar</h2>
+
+<p>2/17/1994 - BC31/UTILITY/TAR.C</p>
+
+<p>My hacked together version of tar so I could expand <a href="http://www.softwarepreservation.org/projects/c_plus_plus/library/nihcl">NIHCL</a>!  Wow.</p>
+
+<h2>EPS Wave Editor</h2>
+
+<p>8/7/1994 - BC31/WAVED/MENUTEST.EXE</p>
+
+<p>Final build of the EPS Wave Editor.</p>
+
+<p>This was about the time that Barb and I were getting together.  I guess she distracted me from music development.  Or, it's also possible that I switched over to Mwave development around this time.  There's some Mwave development activity from 1994 through 1995.  My memory seems to indicate that I abandoned this because it was of limited use.  I had used it to generate some basic synth waves (sine, triangle, etc...) and fixed a few bad instruments on my floppies.  But then I didn't really have anything else I needed to do.</p>
+
+<h2>Network Imaging</h2>
+
+<p>6/1994 I started working at Network Imaging in Herndon.</p>
+
+<h2>RDSI</h2>
+
+<p>9/1995 I started working at RDSI.  I'll probably die there.</p>
+
+<h2>Last Mwave Build</h2>
+
+<p>2/27/1998 - DDelay/Mwave/DELAY.DSP</p>
+
+<p>Mwave digital delay task.</p>
+
+<p>Last build of an Mwave task.  Probably while working on the thunking layer.  See 3/28/1998.</p>
+
+<h2>End of Mwave</h2>
+
+<p>3/28/1998 - DDelay/MwaveThunk/TODO.txt</p>
+
+<p>This is the TODO for the thunking project I was working on to get the old 16-bit Mwave drivers to work in 32-bit Windows.  If I ever do DSP again, it would make a lot more sense to just buy a brand-spanking new DSP dev kit from TI.  They probably support USB and 64-bit Linux and are far more capable than Mwave ever was.</p>
+
+</body>
+</html>
+
