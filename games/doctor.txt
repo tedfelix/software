@@ -1,0 +1,6 @@
+DOCTOR.BAS
+
+A version of Eliza.  You have to talk to this one in all caps, so hit the
+caps lock key before starting.
+
+
