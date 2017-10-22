@@ -1,0 +1,12 @@
+Gamma Hedron
+
+Use the number keys to move your ship (*).  2 is up, 4 is left, 6 is right,
+and 8 is down.  The space bar fires in the direction you are moving.
+Try to shoot down the enemy (O) who will fill the screen with blinking
+radiation.
+
+This game is hilariously random.
+
+Note that you just need to hit a capital O to get a point.  Since there
+are frequently O's left on the screen due to bugs, this is pretty easy.
+
